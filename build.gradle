@@ -21,6 +21,8 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-jdbc'
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 	implementation 'javax.xml.bind:jaxb-api'
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0.1'
