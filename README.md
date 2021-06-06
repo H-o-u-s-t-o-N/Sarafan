@@ -2,6 +2,8 @@
 it`s will be simple REST App
 
 ### Change log
+* v0.03
+    - Add comments (have some bugs)
 * v0.02
     - Add Profile page
     - fix some bugs
