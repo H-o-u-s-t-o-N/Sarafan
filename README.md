@@ -2,6 +2,8 @@
 it`s will be simple REST App
 
 ### Change log
+* v0.06
+    - Activate or Dismiss subscriptions
 * v0.05
     - fix bugs with comments
     - Add subscription
