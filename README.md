@@ -2,6 +2,10 @@
 it`s will be simple REST App
 
 ### Change log
+* v0.05
+    - fix bugs with comments
+    - Add subscription
+    - U can see only your and your subscribe message
 * v0.03
     - Add comments (have some bugs)
 * v0.02
