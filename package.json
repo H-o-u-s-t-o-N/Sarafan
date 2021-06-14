@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@sentry/browser": "^6.7.0",
+    "@sentry/integrations": "^6.7.0",
+    "@sentry/tracing": "^6.7.0",
+    "@sentry/vue": "^6.7.0",
     "@stomp/stompjs": "^6.1.0",
     "sockjs-client": "^1.5.1",
     "vue": "^2.6.12",
