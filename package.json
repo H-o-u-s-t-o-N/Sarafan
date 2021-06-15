@@ -6,7 +6,8 @@
   "author": "HoustoN",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve"
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -26,6 +27,7 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^5.2.5",
     "deepmerge": "^4.2.2",
     "sass": "^1.34.0",
@@ -36,6 +38,6 @@
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.7.3"
+    "webpack-merge": "^5.8.0"
   }
 }
