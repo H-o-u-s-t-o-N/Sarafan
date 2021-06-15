@@ -21,6 +21,10 @@ repositories {
 	mavenCentral()
 }
 
+node {
+	download = true
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -34,8 +38,6 @@ dependencies {
 	implementation 'io.sentry:sentry-spring:1.7.30'
 	implementation 'javax.xml.bind:jaxb-api'
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
-	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
-	implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0.1'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
