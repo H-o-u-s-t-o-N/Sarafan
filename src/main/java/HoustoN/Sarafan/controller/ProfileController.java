@@ -3,9 +3,13 @@ package HoustoN.Sarafan.controller;
 import HoustoN.Sarafan.domain.User;
 import HoustoN.Sarafan.domain.UserSubscription;
 import HoustoN.Sarafan.domain.Views;
+import HoustoN.Sarafan.dto.UsersPageDto;
 import HoustoN.Sarafan.service.ProfileService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,14 @@ public class ProfileController {
     @Autowired
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
+    }
+
+    @GetMapping("all")
+    @JsonView(Views.IdName.class)
+    public UsersPageDto getAll(
+            @PageableDefault(size = 20, sort = { "name" }, direction = Sort.Direction.DESC) Pageable pageable
+    ){
+        return profileService.getAllUsers(pageable);
     }
 
     @GetMapping("{id}")

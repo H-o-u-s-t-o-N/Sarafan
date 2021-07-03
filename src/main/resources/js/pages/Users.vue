@@ -1,0 +1,31 @@
+<template>
+  <v-container>
+    <v-layout align-space-around justify-start column>
+      <user-link v-for=" (user,index) in sortedUsers"
+                 :key="`user.id-${index}`"
+                 :user="user"
+                 size="48"
+      ></user-link>
+      <lazy-loader is-message-page=false></lazy-loader>
+    </v-layout>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+import UserLink from "components/UserLink.vue"
+import LazyLoader from 'components/LazyLoader.vue'
+
+export default {
+  name: "Users",
+  components: {
+    UserLink,
+    LazyLoader,
+  },
+  computed: mapGetters(['sortedUsers'])
+}
+</script>
+
+<style scoped>
+
+</style>

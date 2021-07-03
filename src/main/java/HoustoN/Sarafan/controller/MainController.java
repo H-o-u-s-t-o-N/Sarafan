@@ -3,8 +3,10 @@ package HoustoN.Sarafan.controller;
 import HoustoN.Sarafan.domain.User;
 import HoustoN.Sarafan.domain.Views;
 import HoustoN.Sarafan.dto.MessagePageDto;
+import HoustoN.Sarafan.dto.UsersPageDto;
 import HoustoN.Sarafan.repo.UserDetailsRepo;
 import HoustoN.Sarafan.service.MessageService;
+import HoustoN.Sarafan.service.ProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -24,17 +26,21 @@ import java.util.HashMap;
 @RequestMapping("/")
 public class MainController {
     private final MessageService messageService;
+    private final ProfileService profileService;
     private final UserDetailsRepo userDetailsRepo;
 
     @Value("${spring.profiles.active:prod}")
     private String profile;
+
     private final ObjectWriter messageWriter;
     private final ObjectWriter profileWriter;
+    private final ObjectWriter usersWriter;
 
     @Autowired
-    public MainController(MessageService messageService, UserDetailsRepo userDetailsRepo, ObjectMapper mapper) {
+    public MainController(MessageService messageService, UserDetailsRepo userDetailsRepo, ObjectMapper mapper, ProfileService profileService) {
         this.messageService = messageService;
         this.userDetailsRepo = userDetailsRepo;
+        this.profileService = profileService;
 
         ObjectMapper objectMapper = mapper
                 .setConfig(mapper.getSerializationConfig());
@@ -43,6 +49,8 @@ public class MainController {
                 .writerWithView(Views.FullMessage.class);
         this.profileWriter = objectMapper
                 .writerWithView(Views.FullProfile.class);
+        this.usersWriter = objectMapper
+                .writerWithView(Views.IdName.class);
     }
 
     @GetMapping
@@ -63,12 +71,19 @@ public class MainController {
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 
+            PageRequest pageRequestUsers = PageRequest.of(0, 20, sort);
+            UsersPageDto usersPageDto = profileService.getAllUsers(pageRequestUsers);
+
+            String users = usersWriter.writeValueAsString(usersPageDto.getUsers());
+
             model.addAttribute("messages", messages);
-            data.put("currentPage", messagePageDto.getCurrentPage());
-            data.put("totalPages", messagePageDto.getTotalPages());
+            model.addAttribute("users", users);
+            data.put("CurrentPage", messagePageDto.getCurrentPage());
+            data.put("TotalPages", messagePageDto.getTotalPages());
         } else {
             model.addAttribute("messages", "[]");
             model.addAttribute("profile", "null");
+            model.addAttribute("users", "[]");
         }
 
         model.addAttribute("frontendData", data);

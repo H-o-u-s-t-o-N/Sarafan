@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import messagesApi from '../api/messages'
 import commentApi from '../api/comment'
+import profileApi from '../api/profile'
 
 Vue.use(Vuex)
 
@@ -9,10 +10,12 @@ export default new Vuex.Store({
     state: {
         messages,
         profile,
+        users,
         ...frontendData
     },
     getters: {
-        sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id))
+        sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id)),
+        sortedUsers: state => (state.users || []).sort((a, b) => -(a.name - b.name))
     },
     mutations: {
         addMessageMutation(state, message) {
@@ -68,6 +71,9 @@ export default new Vuex.Store({
 
             state.messages = Object.values(targetMessages)
         },
+        addUserPageMutation(state, users){
+            state.users = users
+        },
         updateTotalPagesMutation(state, totalPages) {
             state.totalPages = totalPages
         },
@@ -104,11 +110,19 @@ export default new Vuex.Store({
             const data = await response.json()
             commit('addCommentMutation', data)
         },
-        async loadPageAction({commit, state}) {
+        async loadMessagePageAction({commit, state}) {
             const response = await messagesApi.page(state.currentPage + 1)
             const data = await response.json()
 
             commit('addMessagePageMutation', data.messages)
+            commit('updateTotalPagesMutation', data.totalPages)
+            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
+        },
+        async loadUserPageAction({commit, state}) {
+            const response = await profileApi.getAll(state.currentPage + 1)
+            const data = await response.json()
+
+            commit('addUserPageMutation', data.users)
             commit('updateTotalPagesMutation', data.totalPages)
             commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
         }

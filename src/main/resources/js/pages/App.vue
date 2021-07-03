@@ -8,6 +8,12 @@
              @click="showMessages">
         Messages
       </v-btn>
+      <v-btn text
+             v-if="profile"
+             :disabled="$route.path === '/users'"
+             @click="showUsers">
+        Users
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn text
              v-if="profile"
@@ -39,6 +45,9 @@ export default {
     ]),
     showMessages() {
       this.$router.push('/')
+    },
+    showUsers() {
+      this.$router.push('/users')
     },
     showProfile() {
       this.$router.push('/user')
