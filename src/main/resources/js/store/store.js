@@ -15,7 +15,10 @@ export default new Vuex.Store({
     },
     getters: {
         sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id)),
-        sortedUsers: state => (state.users || []).sort((a, b) => -(a.name - b.name))
+        sortedUsers: state => (state.users || []).sort((a, b) => {
+            return a.name?.localeCompare(b.name)
+        }
+)
     },
     mutations: {
         addMessageMutation(state, message) {
@@ -72,14 +75,38 @@ export default new Vuex.Store({
             state.messages = Object.values(targetMessages)
         },
         addUserPageMutation(state, users){
-            state.users = users
+            const targetUsers = state.users
+                .concat(users)
+                .reduce((res, val) => {
+                    res[val.id] = val
+                    return res
+                }, {})
+
+            state.users = Object.values(targetUsers)
         },
-        updateTotalPagesMutation(state, totalPages) {
-            state.totalPages = totalPages
+        updateCurrentAndTotalPagesMutation(state, payload){
+            if(payload.isMessages === true){
+                state.messagesTotalPages = payload.totalPages
+                state.messagesCurrentPage = payload.currentPage
+            }else {
+                state.usersTotalPages = payload.totalPages
+                state.usersCurrentPage = payload.currentPage
+            }
         },
-        updateCurrentPageMutation(state, currentPage) {
-            state.currentPage = currentPage
-        }
+        // updateTotalPagesMutation(state, totalPages, isMessages) {
+        //     if(isMessages === true){
+        //         state.messagesTotalPages = totalPages
+        //     }else {
+        //         state.usersTotalPages = totalPages
+        //     }
+        // },
+        // updateCurrentPageMutation(state, currentPage, isMessages) {
+        //     if(isMessages === true){
+        //         state.messagesCurrentPage = currentPage
+        //     }else {
+        //         state.usersCurrentPage = currentPage
+        //     }
+        // }
     },
     actions: {
         async addMessageAction({commit, state}, message) {
@@ -111,20 +138,30 @@ export default new Vuex.Store({
             commit('addCommentMutation', data)
         },
         async loadMessagePageAction({commit, state}) {
-            const response = await messagesApi.page(state.currentPage + 1)
+            const response = await messagesApi.page(state.messagesCurrentPage + 1)
             const data = await response.json()
 
             commit('addMessagePageMutation', data.messages)
-            commit('updateTotalPagesMutation', data.totalPages)
-            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
+            commit('updateCurrentAndTotalPagesMutation', {
+                isMessages: true,
+                totalPages: data.totalPages,
+                currentPage: Math.min(data.currentPage, data.totalPages - 1)
+            })
+            // commit('updateTotalPagesMutation', data.totalPages, true)
+            // commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1), true)
         },
         async loadUserPageAction({commit, state}) {
-            const response = await profileApi.getAll(state.currentPage + 1)
+            const response = await profileApi.getAll(state.usersCurrentPage + 1)
             const data = await response.json()
 
             commit('addUserPageMutation', data.users)
-            commit('updateTotalPagesMutation', data.totalPages)
-            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
+            commit('updateCurrentAndTotalPagesMutation', {
+                isMessages: false,
+                totalPages: data.totalPages,
+                currentPage: Math.min(data.currentPage, data.totalPages - 1)
+            })
+            // commit('updateTotalPagesMutation', data.totalPages, false)
+            // commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1), false)
         }
     }
 })

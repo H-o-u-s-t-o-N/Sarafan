@@ -7,16 +7,16 @@ import { mapActions } from 'vuex'
 export default {
   name: 'LazyLoader',
   props: ['isMessagePage'],
-  methods: mapActions(['loadPageAction']),
+  methods: mapActions(['loadMessagePageAction', 'loadUserPageAction']),
   mounted() {
     window.onscroll = () => {
       const el = document.documentElement
       const isBottomOfScreen = el.scrollTop + window.innerHeight === el.offsetHeight
       if (isBottomOfScreen) {
-        if(this.isMessagePage){
+        if(this.isMessagePage === true){
           this.loadMessagePageAction()
         }else {
-          this.loadPageAction()
+          this.loadUserPageAction()
         }
       }
     }

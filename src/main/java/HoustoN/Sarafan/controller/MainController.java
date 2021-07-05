@@ -66,20 +66,23 @@ public class MainController {
             model.addAttribute("profile", serializedProfile);
 
             Sort sort = Sort.by(Sort.Direction.DESC, "id");
+            Sort sortName = Sort.by(Sort.Direction.ASC, "name");
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
             MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 
-            PageRequest pageRequestUsers = PageRequest.of(0, 20, sort);
+            PageRequest pageRequestUsers = PageRequest.of(0, 20, sortName);
             UsersPageDto usersPageDto = profileService.getAllUsers(pageRequestUsers);
 
             String users = usersWriter.writeValueAsString(usersPageDto.getUsers());
 
             model.addAttribute("messages", messages);
             model.addAttribute("users", users);
-            data.put("CurrentPage", messagePageDto.getCurrentPage());
-            data.put("TotalPages", messagePageDto.getTotalPages());
+            data.put("MessagesCurrentPage", messagePageDto.getCurrentPage());
+            data.put("UsersCurrentPage", usersPageDto.getCurrentPage());
+            data.put("MessagesTotalPages", messagePageDto.getTotalPages());
+            data.put("UsersTotalPages", usersPageDto.getTotalPages());
         } else {
             model.addAttribute("messages", "[]");
             model.addAttribute("profile", "null");

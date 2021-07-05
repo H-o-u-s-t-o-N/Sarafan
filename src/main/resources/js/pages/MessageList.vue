@@ -6,7 +6,7 @@
                    :key="`message.id-${index}`"
                    :message="message"
                    :editMessage="editMessage" />
-      <lazy-loader is-message-page=true></lazy-loader>
+      <lazy-loader :isMessagePage=true></lazy-loader>
     </v-layout>
   </v-container>
 </template>

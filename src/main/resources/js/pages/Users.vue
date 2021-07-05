@@ -6,7 +6,7 @@
                  :user="user"
                  size="48"
       ></user-link>
-      <lazy-loader is-message-page=false></lazy-loader>
+      <lazy-loader :isMessagePage=false></lazy-loader>
     </v-layout>
   </v-container>
 </template>

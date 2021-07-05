@@ -7,7 +7,6 @@ import HoustoN.Sarafan.repo.UserDetailsRepo;
 import HoustoN.Sarafan.repo.UserSubscriptionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,6 @@ public class ProfileService {
         } else {
             channel.getSubscribers().removeAll(subcriptions);
         }
-
         return userDetailsRepo.save(channel);
     }
 
