@@ -29,12 +29,11 @@ export default new Vuex.Store({
         },
         updateMessageMutation(state, message) {
             const updateIndex = state.messages.findIndex(item => item.id === message.id)
-
-            state.messages = [
-                ...state.messages.slice(0, updateIndex),
-                message,
-                ...state.messages.slice(updateIndex + 1)
-            ]
+                state.messages = [
+                    ...state.messages.slice(0, updateIndex),
+                    message,
+                    ...state.messages.slice(updateIndex + 1)
+                ]
         },
         removeMessageMutation(state, message) {
             const deletionIndex = state.messages.findIndex(item => item.id === message.id)
@@ -93,20 +92,6 @@ export default new Vuex.Store({
                 state.usersCurrentPage = payload.currentPage
             }
         },
-        // updateTotalPagesMutation(state, totalPages, isMessages) {
-        //     if(isMessages === true){
-        //         state.messagesTotalPages = totalPages
-        //     }else {
-        //         state.usersTotalPages = totalPages
-        //     }
-        // },
-        // updateCurrentPageMutation(state, currentPage, isMessages) {
-        //     if(isMessages === true){
-        //         state.messagesCurrentPage = currentPage
-        //     }else {
-        //         state.usersCurrentPage = currentPage
-        //     }
-        // }
     },
     actions: {
         async addMessageAction({commit, state}, message) {

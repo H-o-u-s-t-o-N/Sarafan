@@ -1,11 +1,12 @@
 <template>
   <router-link
       :to="`/user/${user.id}`"
-      class="pa-3"
+      class="pa-3 text-decoration-none"
   >
     <v-avatar
         v-if="user && user.userpic"
         :size="`${size || 36}px`"
+        rounded
     >
       <img
           :src="user.userpic"
@@ -16,17 +17,18 @@
         v-else
         :size="`${size || 36}px`"
         color="indigo"
+        rounded
     >
-      <v-icon dark>account_circle</v-icon>
+      <v-icon dark>perm_identity</v-icon>
     </v-avatar>
-    <span class="
-    font-weight-regular
+    <a class="
+    d-inline
+    font-weight-medium
     overline
-    text-decoration-overline
     mx-3
 ">
       {{ userName }}
-    </span>
+    </a>
   </router-link>
 </template>
 

@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      message: null
+      message: null,
     }
   },
   computed: mapGetters(['sortedMessages']),
