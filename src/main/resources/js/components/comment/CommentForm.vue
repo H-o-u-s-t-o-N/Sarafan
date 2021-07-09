@@ -1,12 +1,17 @@
 <template>
-  <v-layout row class="px-3">
+  <v-layout row class="px-10 my-4">
     <v-text-field
         label="Add comment"
         placeholder="Write something"
         v-model="text"
         @keyup.enter="save"
     />
-    <v-btn @click="save">
+    <v-btn
+        color="primary"
+        elevation="12"
+        outlined
+        small
+        @click="save">
       Add
     </v-btn>
   </v-layout>

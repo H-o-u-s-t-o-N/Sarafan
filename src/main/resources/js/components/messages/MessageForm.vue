@@ -1,12 +1,16 @@
 <template>
-  <v-layout row>
+  <v-layout row class="pa-10 my-10">
     <v-text-field
-        label="New message"
+        label="Add new message"
         placeholder="Write something"
         v-model="text"
         @keyup.enter="save"
     />
-    <v-btn @click="save">
+    <v-btn
+        color="primary"
+        elevation="12"
+        outlined
+        @click="save">
       Save
     </v-btn>
   </v-layout>
