@@ -7,11 +7,13 @@
         >
           <user-link
               :user="item.subscriber"
-              size="24"
           ></user-link>
 
           <v-btn
               @click="changeSubscriptionStatus(item.subscriber.id)"
+              :color="item.active ? 'error' : 'primary'"
+              elevation="8"
+              outlined
           >
             {{item.active ? "Dismiss" : "Approve"}}
           </v-btn>

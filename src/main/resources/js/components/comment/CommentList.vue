@@ -10,6 +10,7 @@
       <v-divider
           v-if="index > 0"
           :key="index"
+          inset
       ></v-divider>
 
       <comment-item

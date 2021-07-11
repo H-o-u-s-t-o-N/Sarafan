@@ -20,17 +20,18 @@
           elevation="6"
           outlined
           small
-      >Edit</v-btn>
+      >
+        <v-icon left>edit</v-icon>
+        Edit</v-btn>
       <v-btn
           @click="del"
           color="primary"
           elevation="6"
-          icon
           outlined
-          tile
           small
       >
-        <v-icon>delete</v-icon>
+        <v-icon left>delete</v-icon>
+        Delete
       </v-btn>
     </v-card-actions>
     <v-divider class="ma-4"></v-divider>

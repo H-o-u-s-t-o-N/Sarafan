@@ -28,6 +28,7 @@
             required
             v-model="text"
             @keyup.enter="save(), dialog = false"
+            counter
         />
         <v-card-actions>
           <v-spacer></v-spacer>

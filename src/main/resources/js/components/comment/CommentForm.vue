@@ -5,6 +5,7 @@
         placeholder="Write something"
         v-model="text"
         @keyup.enter="save"
+        counter
     />
     <v-btn
         color="primary"
@@ -12,6 +13,7 @@
         outlined
         small
         @click="save">
+      <v-icon left>add</v-icon>
       Add
     </v-btn>
   </v-layout>
