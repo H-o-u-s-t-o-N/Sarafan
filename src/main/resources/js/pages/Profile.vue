@@ -2,8 +2,8 @@
   <v-container>
     <v-layout justify-space-around>
       <v-flex :xs6="!$vuetify.breakpoint.xsOnly">
-        <div class="display-1 mb-15">User profile</div>
-
+        <div class="display-1 my-5">User profile</div>
+        <v-divider class="mb-5"></v-divider>
         <v-layout row justify-space-between>
           <v-flex>
             <v-layout column>
@@ -61,6 +61,10 @@
               <v-hover
                   v-slot="{ hover }"
               >
+                <router-link
+                  :to="`/channels/${profile.id}`"
+                  class="text-decoration-none"
+              >
                 <v-card
                     :elevation="hover ? 16 : 2"
                     :class="{ 'on-hover': hover }"
@@ -71,12 +75,12 @@
                 >
                   {{profile.subscriptions && profile.subscriptions.length}} subscriptions
                 </v-card>
+                </router-link>
               </v-hover>
               <v-hover
                   v-slot="{ hover }"
               >
                 <router-link
-                    v-if="isMyProfile"
                     :to="`/subscriptions/${profile.id}`"
                     class="text-decoration-none"
                 >
@@ -91,17 +95,6 @@
                     {{profile.subscribers && profile.subscribers.length}} subscribers
                   </v-card>
                 </router-link>
-                <v-card
-                    v-else
-                    :elevation="hover ? 16 : 2"
-                    :class="{ 'on-hover': hover }"
-                    class="
-                    px-7
-                    mb-15
-                    title"
-                >
-                  {{profile.subscribers && profile.subscribers.length}} subscribers
-                </v-card>
               </v-hover>
             </v-layout>
           </v-flex>

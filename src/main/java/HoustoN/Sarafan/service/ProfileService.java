@@ -50,6 +50,10 @@ public class ProfileService {
         return userSubscriptionRepo.findByChannel(channel);
     }
 
+    public List<UserSubscription> getSubscriptions(User subscriber) {
+        return userSubscriptionRepo.findBySubscriber(subscriber);
+    }
+
     public UserSubscription changeSubscriptionStatus(User channel, User subscriber) {
         UserSubscription subscription = userSubscriptionRepo.findByChannelAndSubscriber(channel, subscriber);
         subscription.setActive(!subscription.isActive());
@@ -66,4 +70,6 @@ public class ProfileService {
                 page.getTotalPages()
         );
     }
+
+
 }

@@ -1,12 +1,16 @@
 <template>
   <v-container>
-    <v-layout align-space-around justify-start column>
-      <user-link v-for=" (user,index) in sortedUsers"
-                 :key="`user.id-${index}`"
-                 :user="user"
-                 size="48"
-      ></user-link>
-      <lazy-loader :isMessagePage=false></lazy-loader>
+    <v-layout justify-space-around>
+      <v-flex :xs6="!$vuetify.breakpoint.xsOnly">
+        <v-layout column>
+          <user-link v-for=" (user,index) in sortedUsers"
+                     :key="`user.id-${index}`"
+                     :user="user"
+                     size="48"
+          ></user-link>
+          <lazy-loader :isMessagePage=false></lazy-loader>
+        </v-layout>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>

@@ -59,6 +59,13 @@ public class ProfileController {
     ) {
         return profileService.getSubscribers(channel);
     }
+    @GetMapping("get-channels/{subscriberId}")
+    @JsonView(Views.IdName.class)
+    public List<UserSubscription> subscriptions(
+            @PathVariable("subscriberId") User subscriber
+    ){
+        return profileService.getSubscriptions(subscriber);
+    }
 
     @PostMapping("change-status/{subscriberId}")
     @JsonView(Views.IdName.class)
