@@ -3,11 +3,15 @@
     <v-layout justify-space-around>
       <v-flex :xs6="!$vuetify.breakpoint.xsOnly">
         <v-layout column>
-          <user-link v-for=" (user,index) in sortedUsers"
-                     :key="`user.id-${index}`"
-                     :user="user"
-                     size="48"
-          ></user-link>
+          <template
+              v-for="(user, index) in sortedUsers">
+            <v-divider v-if="index > 0"></v-divider>
+            <user-link
+                :key="`user.id-${index}`"
+                :user="user"
+                size="48"
+            ></user-link>
+          </template>
           <lazy-loader :isMessagePage=false></lazy-loader>
         </v-layout>
       </v-flex>

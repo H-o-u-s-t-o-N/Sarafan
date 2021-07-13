@@ -7,13 +7,15 @@
         </div>
         <v-layout column>
           <v-list class="mt-5">
-            <v-list-item
-                v-for="item in channels"
-            >
-              <user-link
-                  :user="item.channel"
-              ></user-link>
-            </v-list-item>
+            <template
+                v-for="(item, index) in channels">
+              <v-divider v-if="index > 0"></v-divider>
+              <v-list-item>
+                <user-link
+                    :user="item.channel"
+                ></user-link>
+              </v-list-item>
+            </template>
           </v-list>
         </v-layout>
       </v-flex>

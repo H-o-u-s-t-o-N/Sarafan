@@ -12,7 +12,9 @@
       </div>
     </v-card-text>
     <media v-if="message.link" :message="message"></media>
-    <v-card-actions class="d-flex justify-end px-10">
+    <v-card-actions
+        v-if="isMine"
+        class="d-flex justify-end px-10">
       <v-btn
           value="Edit"
           @click="edit"
@@ -57,6 +59,11 @@ export default {
     },
     del() {
       this.removeMessageAction(this.message)
+    }
+  },
+  computed: {
+    isMine() {
+      return this.message.author.id === this.$store.state.profile.id
     }
   }
 }

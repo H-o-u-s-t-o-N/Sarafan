@@ -7,23 +7,25 @@
         </div>
         <v-layout column>
           <v-list class="mt-5">
-            <v-list-item
-                v-for="item in subscriptions"
-            >
-              <user-link
-                  :user="item.subscriber"
-              ></user-link>
-
-              <v-btn
-                  v-if="isMyProfile"
-                  @click="changeSubscriptionStatus(item.subscriber.id)"
-                  :color="item.active ? 'error' : 'primary'"
-                  elevation="8"
-                  outlined
-              >
-                {{item.active ? "Dismiss" : "Approve"}}
-              </v-btn>
-            </v-list-item>
+            <template
+                v-for="(item, index) in subscriptions">
+              <v-divider v-if="index > 0"></v-divider>
+              <v-list-item>
+                <user-link
+                    :user="item.subscriber"
+                ></user-link>
+                <v-spacer></v-spacer>
+                <v-btn
+                    v-if="isMyProfile"
+                    @click="changeSubscriptionStatus(item.subscriber.id)"
+                    :color="item.active ? 'error' : 'primary'"
+                    elevation="8"
+                    outlined
+                >
+                  {{item.active ? "Dismiss" : "Approve"}}
+                </v-btn>
+              </v-list-item>
+            </template>
           </v-list>
         </v-layout>
       </v-flex>
