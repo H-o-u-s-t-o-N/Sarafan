@@ -27,6 +27,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(Views.Id.class)
     private Long id;
+    @JsonView(Views.Id.class)
     private String chatName;
 
     @ManyToMany

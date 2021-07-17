@@ -23,7 +23,7 @@ public class ChatMessage {
 
     @ManyToOne
     @JoinColumn(name = "chat_id")
-    @JsonView(Views.FullChat.class)
+    @JsonView(Views.IdName.class)
     private Chat chat;
 
     @ManyToOne

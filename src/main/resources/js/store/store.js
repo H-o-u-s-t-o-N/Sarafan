@@ -132,9 +132,7 @@ export default new Vuex.Store({
                 totalPages: data.totalPages,
                 currentPage: Math.min(data.currentPage, data.totalPages - 1)
             })
-            // commit('updateTotalPagesMutation', data.totalPages, true)
-            // commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1), true)
-        },
+       },
         async loadUserPageAction({commit, state}) {
             const response = await profileApi.getAll(state.usersCurrentPage + 1)
             const data = await response.json()
@@ -145,8 +143,6 @@ export default new Vuex.Store({
                 totalPages: data.totalPages,
                 currentPage: Math.min(data.currentPage, data.totalPages - 1)
             })
-            // commit('updateTotalPagesMutation', data.totalPages, false)
-            // commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1), false)
         }
     }
 })

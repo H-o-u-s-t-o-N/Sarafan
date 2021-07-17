@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "usr")
 @Data
 @EqualsAndHashCode(of = { "id" })
-@ToString(of = { "id", "name" })
+@ToString(of = "id")
 public class User {
     @Id
     @JsonView(Views.IdName.class)

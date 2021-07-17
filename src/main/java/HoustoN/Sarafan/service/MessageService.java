@@ -11,7 +11,6 @@ import HoustoN.Sarafan.dto.ObjectType;
 import HoustoN.Sarafan.repo.MessageRepo;
 import HoustoN.Sarafan.repo.UserSubscriptionRepo;
 import HoustoN.Sarafan.util.WsSender;
-import io.sentry.Sentry;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +18,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -37,16 +37,21 @@ public class MessageService {
     private static Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
     private static Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
 
+
+    private final SimpMessagingTemplate template;
+
     private final MessageRepo messageRepo;
     private final UserSubscriptionRepo userSubscriptionRepo;
     private final BiConsumer<EventType, Message> wsSender;
 
     @Autowired
     public MessageService(
+            SimpMessagingTemplate template,
             MessageRepo messageRepo,
             UserSubscriptionRepo userSubscriptionRepo,
             WsSender wsSender
     ) {
+        this.template = template;
         this.messageRepo = messageRepo;
         this.userSubscriptionRepo = userSubscriptionRepo;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.FullMessage.class);
@@ -116,6 +121,9 @@ public class MessageService {
         Message updatedMessage = messageRepo.save(message);
 
         wsSender.accept(EventType.CREATE, updatedMessage);
+
+        template.convertAndSendToUser(user.toString(),"queue/notify",
+                "Some Text from server");
 
         return updatedMessage;
     }

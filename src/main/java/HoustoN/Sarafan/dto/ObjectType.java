@@ -1,5 +1,5 @@
 package HoustoN.Sarafan.dto;
 
 public enum ObjectType {
-    MESSAGE, COMMENT
+    MESSAGE, COMMENT, CHAT_MESSAGE
 }

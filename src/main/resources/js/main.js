@@ -30,7 +30,7 @@ Sentry.configureScope(scope =>
 )
 
 if (profile) {
-    connect()
+    connect(profile)
 }
 
 Vue.use(Vuetify)

@@ -32,10 +32,10 @@ public class WsSender {
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
-                template.convertAndSend(
-                        "/topic/activity",
-                        new WsEventDto(objectType, eventType, value)
-                );
+            template.convertAndSend(
+                    "/topic/activity",
+                    new WsEventDto(objectType, eventType, value)
+                    );
         };
     }
 }
