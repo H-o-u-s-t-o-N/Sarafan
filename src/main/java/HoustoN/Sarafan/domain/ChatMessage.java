@@ -23,7 +23,7 @@ public class ChatMessage {
 
     @ManyToOne
     @JoinColumn(name = "chat_id")
-    @JsonView(Views.IdName.class)
+    @JsonView(Views.FullChat.class)
     private Chat chat;
 
     @ManyToOne
@@ -34,6 +34,6 @@ public class ChatMessage {
 
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonView(Views.IdName.class)
+    @JsonView(Views.FullChat.class)
     private LocalDateTime createTime;
 }

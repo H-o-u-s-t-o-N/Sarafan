@@ -4,12 +4,13 @@ import HoustoN.Sarafan.domain.Message;
 import HoustoN.Sarafan.domain.User;
 import HoustoN.Sarafan.domain.UserSubscription;
 import HoustoN.Sarafan.domain.Views;
-import HoustoN.Sarafan.dto.EventType;
 import HoustoN.Sarafan.dto.MessagePageDto;
 import HoustoN.Sarafan.dto.MetaDto;
-import HoustoN.Sarafan.dto.ObjectType;
+import HoustoN.Sarafan.dto.enums.EventType;
+import HoustoN.Sarafan.dto.enums.ObjectType;
 import HoustoN.Sarafan.repo.MessageRepo;
 import HoustoN.Sarafan.repo.UserSubscriptionRepo;
+import HoustoN.Sarafan.util.CustomConsumer;
 import HoustoN.Sarafan.util.WsSender;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class MessageService {
 
     private final MessageRepo messageRepo;
     private final UserSubscriptionRepo userSubscriptionRepo;
-    private final BiConsumer<EventType, Message> wsSender;
+    private final CustomConsumer<User, EventType, Message> wsSender;
 
     @Autowired
     public MessageService(
@@ -95,37 +95,33 @@ public class MessageService {
         );
     }
 
-    private String getContent(Element element) {
-        return element == null ? "" : element.attr("content");
-    }
-
     public void delete(Message message) {
         messageRepo.delete(message);
-        wsSender.accept(EventType.REMOVE, message);
+
+        sendWsMessage(message.getAuthor(),EventType.REMOVE, message);
     }
 
-    public Message update(Message messageFromDb, Message message) throws IOException {
-        messageFromDb.setText(message.getText());
-        fillMeta(messageFromDb);
-        Message updatedMessage = messageRepo.save(messageFromDb);
+    public Message update(User user, Message messageFromDb, Message message) throws IOException {
+        if(messageFromDb.getAuthor().equals(user)) {
+            messageFromDb.setText(message.getText());
+            fillMeta(messageFromDb);
+            Message updatedMessage = messageRepo.save(messageFromDb);
 
-        wsSender.accept(EventType.UPDATE, updatedMessage);
+            sendWsMessage(messageFromDb.getAuthor(), EventType.UPDATE, updatedMessage);
 
-        return updatedMessage;
+            return updatedMessage;
+        }else return null;
     }
 
     public Message create(Message message, User user) throws IOException {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
         message.setAuthor(user);
-        Message updatedMessage = messageRepo.save(message);
+        Message savedMessage = messageRepo.save(message);
 
-        wsSender.accept(EventType.CREATE, updatedMessage);
+        sendWsMessage(user,EventType.CREATE, savedMessage);
 
-        template.convertAndSendToUser(user.toString(),"queue/notify",
-                "Some Text from server");
-
-        return updatedMessage;
+        return savedMessage;
     }
 
     public MessagePageDto findForUser(Pageable pageable, User user) {
@@ -143,5 +139,21 @@ public class MessageService {
                 pageable.getPageNumber(),
                 page.getTotalPages()
         );
+    }
+
+    private String getContent(Element element) {
+        return element == null ? "" : element.attr("content");
+    }
+
+    private void sendWsMessage(User sender, EventType eventType, Message message){
+        List<User> recipients = userSubscriptionRepo.findByChannel(sender)
+                .stream()
+                .filter(UserSubscription::isActive)
+                .map(UserSubscription::getSubscriber)
+                .collect(Collectors.toList());
+
+//        recipients.add(sender);
+
+        recipients.forEach(user -> wsSender.accept(user, eventType, message));
     }
 }

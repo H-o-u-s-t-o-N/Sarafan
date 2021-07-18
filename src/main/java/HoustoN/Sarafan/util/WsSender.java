@@ -1,15 +1,14 @@
 package HoustoN.Sarafan.util;
 
-import HoustoN.Sarafan.dto.EventType;
-import HoustoN.Sarafan.dto.ObjectType;
+import HoustoN.Sarafan.domain.User;
 import HoustoN.Sarafan.dto.WsEventDto;
+import HoustoN.Sarafan.dto.enums.EventType;
+import HoustoN.Sarafan.dto.enums.ObjectType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-
-import java.util.function.BiConsumer;
 
 @Component
 public class WsSender {
@@ -21,19 +20,20 @@ public class WsSender {
         this.mapper = mapper;
     }
 
-    public <T> BiConsumer<EventType, T> getSender(ObjectType objectType, Class view) {
+    public <T> CustomConsumer<User, EventType, T> getSender(ObjectType objectType, Class view) {
         ObjectWriter writer = mapper
                 .setConfig(mapper.getSerializationConfig())
                 .writerWithView(view);
-        return (EventType eventType, T payload) -> {
+        return (User recipient, EventType eventType, T payload) -> {
             String value = null;
             try {
                  value = writer.writeValueAsString(payload);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
-            template.convertAndSend(
-                    "/topic/activity",
+            template.convertAndSendToUser(
+                    recipient.toString(),
+                    "queue/activity",
                     new WsEventDto(objectType, eventType, value)
                     );
         };

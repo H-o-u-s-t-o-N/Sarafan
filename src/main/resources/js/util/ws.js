@@ -11,14 +11,10 @@ export function connect(profile) {
     // stompClient.debug = () => {}
     stompClient.connect({}, frame => {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/activity', message => {
+        stompClient.subscribe('/user/queue/activity', message => {
             handlers.forEach(handler => handler(JSON.parse(message.body)))
-        }),
-            stompClient.subscribe('/user/queue/notify',
-                    message => { alert(message)
-
-            })
         })
+    })
 }
 
 export function addHandler(handler) {
