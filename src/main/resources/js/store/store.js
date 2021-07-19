@@ -49,7 +49,7 @@ export default new Vuex.Store({
             const updateIndex = state.messages.findIndex(item => item.id === comment.message.id)
             const message = state.messages[updateIndex]
 
-            if (!message.comments.find(it => it.id === comment.id)) {
+            if (comment.id !== null && !message.comments.find(it => it.id === comment.id)) {
                 state.messages = [
                     ...state.messages.slice(0, updateIndex),
                     {
@@ -62,6 +62,23 @@ export default new Vuex.Store({
                     ...state.messages.slice(updateIndex + 1)
                 ]
             }
+        },
+        removeCommentMutation(state, comment) {
+            const messageIndex = state.messages.findIndex(item => item.id === comment.message.id)
+            const message = state.messages[messageIndex]
+            const commentIndex = message.comments.findIndex(item => item.id === comment.id)
+
+                state.messages = [
+                    ...state.messages.slice(0, messageIndex),
+                    {
+                        ...message,
+                        comments: [
+                            ...message.comments.slice(0, commentIndex),
+                            ...message.comments.slice(commentIndex + 1)
+                        ]
+                    },
+                    ...state.messages.slice(messageIndex + 1)
+                ]
         },
         addMessagePageMutation(state, messages) {
             const targetMessages = state.messages
@@ -121,6 +138,13 @@ export default new Vuex.Store({
             const response = await commentApi.add(comment)
             const data = await response.json()
             commit('addCommentMutation', data)
+        },
+        async removeCommentAction({commit}, comment) {
+            const result = await commentApi.remove(comment.id)
+
+            if (result.ok) {
+                commit('removeCommentMutation', comment)
+            }
         },
         async loadMessagePageAction({commit, state}) {
             const response = await messagesApi.page(state.messagesCurrentPage + 1)

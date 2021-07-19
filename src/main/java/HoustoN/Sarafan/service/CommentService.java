@@ -35,6 +35,14 @@ public class CommentService {
         return savedComment;
     }
 
+    public void delete(User user, Comment comment) {
+        if(comment.getAuthor().equals(user)){
+            commentRepo.delete(comment);
+
+            sendWsMessage(user, EventType.REMOVE, comment);
+        }
+    }
+
     private void sendWsMessage(User sender, EventType eventType, Comment comment){
         List<User> recipients = userSubscriptionRepo.findByChannel(sender)
                 .stream()

@@ -31,9 +31,9 @@ export default {
   },
   methods: {
     ...mapActions(['addCommentAction']),
-    async save() {
+    save() {
       if(this.text !== ''){
-        await this.addCommentAction({
+        this.addCommentAction({
           text: this.text,
           message: {
             id: this.messageId

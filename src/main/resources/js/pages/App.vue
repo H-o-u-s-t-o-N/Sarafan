@@ -41,7 +41,8 @@ export default {
       'addMessageMutation',
       'updateMessageMutation',
       'removeMessageMutation',
-      'addCommentMutation'
+      'addCommentMutation',
+      'removeCommentMutation'
     ]),
     showMessages() {
       this.$router.push('/')
@@ -73,6 +74,9 @@ export default {
         switch (data.eventType) {
           case 'CREATE':
             this.addCommentMutation(data.body)
+            break
+          case 'REMOVE':
+            this.removeCommentMutation(data.body)
             break
           default:
             console.error(`Looks like the event type if unknown "${data.eventType}"`)
