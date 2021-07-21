@@ -15,6 +15,7 @@
 
       <comment-item
           :comment="item"
+          :message-author="messageAuthor"
           :key="'item' + index"
       ></comment-item>
     </template>
@@ -29,7 +30,7 @@ import CommentItem from './CommentItem.vue'
 export default {
   name: 'CommentList',
   components: {CommentForm, CommentItem},
-  props: ['comments', 'messageId']
+  props: ['comments', 'messageId', 'messageAuthor']
 }
 </script>
 

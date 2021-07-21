@@ -7,7 +7,7 @@ public final class Views {
 
     public interface FullComment extends IdName {}
 
-    public interface FullMessage extends IdName {}
+    public interface FullMessage extends FullComment {}
 
     public interface FullProfile extends IdName {}
 

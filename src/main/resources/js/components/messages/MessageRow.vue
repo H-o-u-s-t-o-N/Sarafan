@@ -39,7 +39,8 @@
     <v-divider class="ma-4"></v-divider>
     <comment-list
         :comments="message.comments"
-        :message-id="message.id"
+        :messageId="message.id"
+        :messageAuthor="message.author"
     ></comment-list>
   </v-card>
 </template>

@@ -49,14 +49,19 @@ export default new Vuex.Store({
             const updateIndex = state.messages.findIndex(item => item.id === comment.message.id)
             const message = state.messages[updateIndex]
 
-            if (comment.id !== null && !message.comments.find(it => it.id === comment.id)) {
+
+
+            if (!message.comments.find(it => it.id === comment.id)) {
                 state.messages = [
                     ...state.messages.slice(0, updateIndex),
                     {
                         ...message,
                         comments: [
                             ...message.comments,
-                            comment
+                            {
+                                ...comment,
+                                message: message.id
+                            }
                         ]
                     },
                     ...state.messages.slice(updateIndex + 1)
@@ -64,7 +69,7 @@ export default new Vuex.Store({
             }
         },
         removeCommentMutation(state, comment) {
-            const messageIndex = state.messages.findIndex(item => item.id === comment.message.id)
+            const messageIndex = state.messages.findIndex(item => item.id === comment.message)
             const message = state.messages[messageIndex]
             const commentIndex = message.comments.findIndex(item => item.id === comment.id)
 

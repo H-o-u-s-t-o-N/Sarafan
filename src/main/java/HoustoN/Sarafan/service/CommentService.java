@@ -36,7 +36,7 @@ public class CommentService {
     }
 
     public void delete(User user, Comment comment) {
-        if(comment.getAuthor().equals(user)){
+        if(comment.getAuthor().equals(user) || comment.getMessage().getAuthor().equals(user)){
             commentRepo.delete(comment);
 
             sendWsMessage(user, EventType.REMOVE, comment);

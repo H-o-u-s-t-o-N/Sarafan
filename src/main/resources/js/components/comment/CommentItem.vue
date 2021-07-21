@@ -7,12 +7,13 @@
       <v-list-item-title>{{comment.text}}</v-list-item-title>
     </v-list-item-content>
     <v-spacer></v-spacer>
-    <v-btn v-if="isMine"
+    <v-btn v-if="isMine || isMyMessage"
         @click="del"
-        color="primary"
-        elevation="6"
-        outlined
-        small
+           class="mx-15"
+           depressed
+           icon
+           color="indigo"
+        x-small
     >
       <v-icon>delete</v-icon>
     </v-btn>
@@ -21,11 +22,11 @@
 
 <script>
 import UserLink from '../UserLink.vue'
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: 'CommentItem',
   components: {UserLink},
-  props: ['comment'],
+  props: ['comment', 'messageAuthor'],
   methods: {
     ...mapActions(['removeCommentAction']),
     del() {
@@ -35,6 +36,9 @@ export default {
   computed: {
     isMine() {
       return this.comment.author.id === this.$store.state.profile.id
+    },
+    isMyMessage(){
+      return this.messageAuthor.id === this.$store.state.profile.id
     }
   }
 }
