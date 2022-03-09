@@ -26,7 +26,8 @@ they must confirm your request
 
 --------
 
-#### To see the project, click [HERE](https://sarafan-houston.herokuapp.com) 
+### To see the project, click [HERE](https://sarafan-houston.herokuapp.com) 
+(Free server - of course slowly ) <br/> <br/>
 
 ##### To find my profile, click [here](https://sarafan-houston.herokuapp.com/user/103707175637626812043)
 
@@ -64,3 +65,17 @@ If you have some problems - don`t write to me
   - oAuth2 authorization (Google)
   - WebSocket (SockJS + Stomp)
   - Makes webpack with yarn
+
+
+### If you want to lunch this project follow this instruction
+ Need: Node.js, Yarn, Java, Postgres
+
+1. Environment variables ```spring.profiles.active=dev;clientSecret=DBi_DsO80FF_mG4xmU26uawy``` 
+2. Create DB "sarafan" & Change or set this Login & Password to DB 
+```
+   spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost/sarafan}
+   spring.datasource.username=${SPRING_DATASOURCE_USERNAME:postgres}
+   spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:123} 
+   ```
+3. Lunch Project and webpack ```yarn start```
+ 

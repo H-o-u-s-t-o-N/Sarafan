@@ -6,6 +6,7 @@ import HoustoN.Sarafan.domain.Views;
 import HoustoN.Sarafan.dto.UsersPageDto;
 import HoustoN.Sarafan.service.ProfileService;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,13 +18,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("profile")
+@RequiredArgsConstructor
 public class ProfileController {
-    private final ProfileService profileService;
+    public static final int USERS_PER_PAGE = 20;
 
-    @Autowired
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
+    private final ProfileService profileService;
 
     @GetMapping("all")
     @JsonView(Views.IdName.class)

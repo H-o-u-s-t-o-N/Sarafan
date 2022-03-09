@@ -10,6 +10,4 @@ public final class Views {
     public interface FullMessage extends FullComment {}
 
     public interface FullProfile extends IdName {}
-
-    public interface FullChat extends IdName {}
 }

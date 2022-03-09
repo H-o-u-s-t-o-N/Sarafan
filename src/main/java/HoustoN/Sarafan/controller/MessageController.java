@@ -6,6 +6,7 @@ import HoustoN.Sarafan.domain.Views;
 import HoustoN.Sarafan.dto.MessagePageDto;
 import HoustoN.Sarafan.service.MessageService;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,15 +18,12 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("message")
+@RequiredArgsConstructor
 public class MessageController {
     public static final int MESSAGES_PER_PAGE = 3;
 
     private final MessageService messageService;
 
-    @Autowired
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
 
     @GetMapping
     @JsonView(Views.FullMessage.class)

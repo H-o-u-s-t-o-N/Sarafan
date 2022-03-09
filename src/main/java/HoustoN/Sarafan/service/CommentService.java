@@ -50,8 +50,6 @@ public class CommentService {
                 .map(UserSubscription::getSubscriber)
                 .collect(Collectors.toList());
 
-//        recipients.add(sender);
-
         recipients.forEach(user -> wsSender.accept(user, eventType, comment));
     }
 }

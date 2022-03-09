@@ -14,6 +14,12 @@
              @click="showUsers">
         Users
       </v-btn>
+      <v-btn text
+             v-if="profile"
+             :disabled="$route.path === '/chats'"
+             @click="showChats">
+        Chats
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn text
              v-if="profile"
@@ -49,6 +55,9 @@ export default {
     },
     showUsers() {
       this.$router.push('/users')
+    },
+    showChats() {
+      this.$router.push('/chats')
     },
     showProfile() {
       this.$router.push('/user')

@@ -5,6 +5,7 @@ import HoustoN.Sarafan.domain.UserSubscription;
 import HoustoN.Sarafan.dto.UsersPageDto;
 import HoustoN.Sarafan.repo.UserDetailsRepo;
 import HoustoN.Sarafan.repo.UserSubscriptionRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,20 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileService {
+
     private final UserDetailsRepo userDetailsRepo;
     private final UserSubscriptionRepo userSubscriptionRepo;
-
-    @Autowired
-    public ProfileService(
-            UserDetailsRepo userDetailsRepo,
-            UserSubscriptionRepo userSubscriptionRepo
-    ) {
-        this.userDetailsRepo = userDetailsRepo;
-        this.userSubscriptionRepo = userSubscriptionRepo;
-    }
-
-
 
     public User changeSubscription(User channel, User subscriber) {
         List<UserSubscription> subcriptions = channel.getSubscribers()

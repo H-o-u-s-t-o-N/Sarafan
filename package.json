@@ -6,8 +6,8 @@
   "author": "HoustoN",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack serve --config webpack.dev.js",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",

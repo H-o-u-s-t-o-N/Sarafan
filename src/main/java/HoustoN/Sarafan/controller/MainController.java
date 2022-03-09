@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +52,7 @@ public class MainController {
                 .writerWithView(Views.IdName.class);
     }
 
+
     @GetMapping
     public String main(
             Model model,
@@ -60,19 +60,18 @@ public class MainController {
     ) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
+        // just init start data
         if (user != null) {
             User userFromDb = userDetailsRepo.findById(user.getId()).get();
             String serializedProfile = profileWriter.writeValueAsString(userFromDb);
             model.addAttribute("profile", serializedProfile);
 
-            Sort sort = Sort.by(Sort.Direction.DESC, "id");
-            Sort sortName = Sort.by(Sort.Direction.ASC, "name");
-            PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
+            PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE);
             MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());
 
-            PageRequest pageRequestUsers = PageRequest.of(0, 20, sortName);
+            PageRequest pageRequestUsers = PageRequest.of(0, ProfileController.USERS_PER_PAGE);
             UsersPageDto usersPageDto = profileService.getAllUsers(pageRequestUsers);
 
             String users = usersWriter.writeValueAsString(usersPageDto.getUsers());

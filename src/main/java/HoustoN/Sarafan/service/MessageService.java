@@ -33,10 +33,8 @@ import java.util.stream.Collectors;
 public class MessageService {
     private static String URL_PATTERN = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+";
     private static String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
-
     private static Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
     private static Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
-
 
     private final SimpMessagingTemplate template;
 
@@ -111,6 +109,7 @@ public class MessageService {
 
             return updatedMessage;
         }else return null;
+        // yeesss, its null, I change it later
     }
 
     public Message create(Message message, User user) throws IOException {
@@ -134,6 +133,7 @@ public class MessageService {
         channels.add(user);
 
         Page<Message> page = messageRepo.findByAuthorIn(channels, pageable);
+
         return new MessagePageDto(
                 page.getContent(),
                 pageable.getPageNumber(),
@@ -151,8 +151,6 @@ public class MessageService {
                 .filter(UserSubscription::isActive)
                 .map(UserSubscription::getSubscriber)
                 .collect(Collectors.toList());
-
-//        recipients.add(sender);
 
         recipients.forEach(user -> wsSender.accept(user, eventType, message));
     }
